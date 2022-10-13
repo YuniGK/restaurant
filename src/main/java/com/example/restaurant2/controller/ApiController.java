@@ -3,11 +3,12 @@ package com.example.restaurant2.controller;
 import com.example.restaurant2.wishList.dto.WishListDto;
 import com.example.restaurant2.wishList.service.WishListService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@Slf4j
 @RestController
 @RequestMapping("/api/restaurant")
 @RequiredArgsConstructor
@@ -18,6 +19,28 @@ public class ApiController {
     @GetMapping("/search")
     public WishListDto search(@RequestParam String query){
         return wishListService.search(query);
+    }
+
+    @PostMapping("")
+    public WishListDto add(@RequestBody WishListDto wishListDto){
+      log.info("add {}", wishListDto);
+
+      return wishListService.add(wishListDto);
+    }
+
+    @GetMapping("/all")
+    public List<WishListDto> findAll(){
+        return wishListService.findAll();
+    }
+
+    @DeleteMapping("/{index}")
+    public void delete(@PathVariable int index){
+        wishListService.delete(index);
+    }
+
+    @PostMapping("{index}")
+    public void addVisit(@PathVariable int index){
+        wishListService.addVisit(index);
     }
 
 }
